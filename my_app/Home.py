@@ -3,15 +3,6 @@ import streamlit as st
 # Set page title and layout
 st.set_page_config(page_title="CivilSync", page_icon="🌎", layout="wide")
 
-# Initialize session state for page navigation
-if "current_page" not in st.session_state:
-    st.session_state.current_page = "welcome"
-
-# Function to change page
-def change_page(page_name):
-    st.session_state.current_page = page_name
-    st.rerun()
-
 # Custom CSS (keeping your existing CSS)
 st.markdown(
     """
@@ -321,23 +312,10 @@ st.markdown(
             <span class="company-name">CivilSync</span>
         </div>
         <div class="nav-menu">
-            <span class="nav-item">Home</span>
-            <span class="nav-item">About</span>
-            <span class="nav-item">Questionnaire</span>
-    """,
-    unsafe_allow_html=True,
-)
-
-# Insert the Results button that will look like a nav-item
-with st.container():
-    st.markdown('<div class="results-button-container">', unsafe_allow_html=True)
-    if st.button("Results"):
-        change_page("results")
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# Continue with the rest of the navigation
-st.markdown(
-    """
+            <a href="/" class="nav-item">Home</a>
+            <a href="/About" class="nav-item">About</a>
+            <a href="/Questionnaire" class="nav-item">Questionnaire</a>
+            <a href="/Results" class="nav-item">Results</a>
             <div class="login-button">Log In</div>
         </div>
     </div>
@@ -345,155 +323,62 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Render the appropriate page based on session state
-if st.session_state.current_page == "welcome":
-    # Hero Section
-    st.markdown(
-        """
-        <div class="hero">
-            <div class="hero-content">
-                <div class="hero-title">Your Voice Matters</div>
-                <div class="hero-subtitle">See how your beliefs align with the actions of the current presidency.</div>
-            </div>
+# Hero Section
+st.markdown(
+    """
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-title">Your Voice Matters</div>
+            <div class="hero-subtitle">See how your beliefs align with the actions of the current presidency.</div>
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
-    # Content
-    st.markdown('<div class="title">CivilSync</div>', unsafe_allow_html=True)
-    st.markdown('<div class="motto">Sync your views with political reality</div>', unsafe_allow_html=True)
-    st.markdown('<p class="intro-text">Welcome to CivilSync, where you can compare your beliefs with the actions of the current presidency. '
-                'Explore how political decisions align with your stance on important issues.</p>', unsafe_allow_html=True)
+# Content
+st.markdown('<div class="title">CivilSync</div>', unsafe_allow_html=True)
+st.markdown('<div class="motto">Sync your views with political reality</div>', unsafe_allow_html=True)
+st.markdown('<p class="intro-text">Welcome to CivilSync, where you can compare your beliefs with the actions of the current presidency. '
+            'Explore how political decisions align with your stance on important issues.</p>', unsafe_allow_html=True)
 
-    # Fully Centered "Get Started" Button
-    st.markdown('<div class="button-container">', unsafe_allow_html=True)
-    if st.button("Get Started"):
-        change_page("questionnaire")
-    st.markdown('</div>', unsafe_allow_html=True)
+# Fully Centered "Get Started" Button
+st.markdown('<div class="button-container">', unsafe_allow_html=True)
+get_started = st.button("Get Started")
+st.markdown('</div>', unsafe_allow_html=True)
 
-    # Features Section
-    st.markdown(
-        """
-        <div class="features">
-            <div class="feature-card">
-                <img src="https://png.pngtree.com/element_pic/16/11/26/a49bef4c2559a64c0d1a80f6c66526a4.png" class="feature-icon" alt="Compare Your Beliefs">
-                <div class="feature-title">Compare Your Beliefs</div>
-                <div class="feature-description">See how your views align with presidential policies.</div>
-            </div>
-            <div class="feature-card">
-                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135694.png" class="feature-icon" alt="Explore Policies">
-                <div class="feature-title">Explore Policies</div>
-                <div class="feature-description">Dive into detailed analyses of key political decisions.</div>
-            </div>
-            <div class="feature-card">
-                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="feature-icon" alt="Stay Informed">
-                <div class="feature-title">Stay Informed</div>
-                <div class="feature-description">Get updates on how policies evolve over time.</div>
-            </div>
+if get_started:
+    st.switch_page("pages/Questionnaire.py")
+
+# Features Section
+st.markdown(
+    """
+    <div class="features">
+        <div class="feature-card">
+            <img src="https://png.pngtree.com/element_pic/16/11/26/a49bef4c2559a64c0d1a80f6c66526a4.png" class="feature-icon" alt="Compare Your Beliefs">
+            <div class="feature-title">Compare Your Beliefs</div>
+            <div class="feature-description">See how your views align with presidential policies.</div>
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-elif st.session_state.current_page == "results":
-    # Results page content
-    st.title("Your Results")
-    
-    # Example chart or visualization
-    import pandas as pd
-    import numpy as np
-    import matplotlib.pyplot as plt
-    
-    # Sample data
-    categories = ['Economy', 'Healthcare', 'Immigration', 'Environment', 'Foreign Policy']
-    your_views = np.random.randint(0, 100, size=5)
-    presidential_actions = np.random.randint(0, 100, size=5)
-    
-    # Create chart
-    fig, ax = plt.subplots(figsize=(10, 6))
-    x = np.arange(len(categories))
-    width = 0.35
-    
-    ax.bar(x - width/2, your_views, width, label='Your Views', color='#8d7b68')
-    ax.bar(x + width/2, presidential_actions, width, label='Presidential Actions', color='#2c7873')
-    
-    ax.set_xticks(x)
-    ax.set_xticklabels(categories)
-    ax.legend()
-    
-    st.pyplot(fig)
-    
-    # Detailed analysis
-    st.header("Detailed Analysis")
-    
-    for i, category in enumerate(categories):
-        st.subheader(category)
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.write("Your View:")
-            st.progress(your_views[i]/100)
-            st.write(f"{your_views[i]}% alignment with liberal policies")
-            
-        with col2:
-            st.write("Presidential Actions:")
-            st.progress(presidential_actions[i]/100)
-            st.write(f"{presidential_actions[i]}% alignment with liberal policies")
-            
-        st.write("---")
-    
-    # Overall compatibility
-    overall_compatibility = np.mean(100 - np.abs(your_views - presidential_actions))
-    st.header("Overall Compatibility")
-    st.write(f"Your views are {overall_compatibility:.1f}% compatible with current presidential actions.")
-
-elif st.session_state.current_page == "questionnaire":
-    st.title("Political Beliefs Questionnaire")
-    st.write("Please answer the following questions to help us understand your political stance.")
-    
-    # Sample questions
-    questions = [
-        "The government should provide healthcare for all citizens.",
-        "Immigration policies should be more strict.",
-        "Environmental regulations should be a priority.",
-        "The wealthy should pay higher taxes.",
-        "The military budget should be increased."
-    ]
-    
-    # Create form
-    with st.form("questionnaire_form"):
-        responses = []
-        
-        for i, question in enumerate(questions):
-            st.write(f"**{i+1}. {question}**")
-            response = st.slider(
-                "Select your level of agreement:",
-                min_value=0,
-                max_value=100,
-                value=50,
-                step=1,
-                key=f"q{i}",
-                format="%d%%",
-                label_visibility="collapsed"
-            )
-            responses.append(response)
-            st.write("---")
-        
-        # Submit button
-        submit = st.form_submit_button("See My Results")
-        
-        if submit:
-            # Store responses in session state
-            st.session_state.responses = responses
-            # Navigate to results page
-            change_page("results")
+        <div class="feature-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135694.png" class="feature-icon" alt="Explore Policies">
+            <div class="feature-title">Explore Policies</div>
+            <div class="feature-description">Dive into detailed analyses of key political decisions.</div>
+        </div>
+        <div class="feature-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="feature-icon" alt="Stay Informed">
+            <div class="feature-title">Stay Informed</div>
+            <div class="feature-description">Get updates on how policies evolve over time.</div>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 # Footer for all pages
 st.markdown(
     """
     <div class="footer">
-        <a href="#">About</a> | <a href="#">Contact</a> | <a href="#">Privacy Policy</a>
+        <a href="/About">About</a> | <a href="#">Contact</a> | <a href="#">Privacy Policy</a>
     </div>
     """,
     unsafe_allow_html=True,
