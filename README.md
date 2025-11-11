@@ -1,4 +1,6 @@
 # CivilSync 🏛️
+![EasyEats Homepage](<Screenshot 2025-03-23 172048.png>)
+![]()
 
 **Empowering young voters to connect their values with government actions**
 
